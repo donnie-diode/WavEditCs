@@ -128,16 +128,56 @@ namespace WavEditCs
 
         void SaveRecentFileList()
         {
-            Properties.Settings.Default.recentFile0 = recent_filenames.ElementAt(0);
-            Properties.Settings.Default.recentFile1 = recent_filenames.ElementAt(1);
-            Properties.Settings.Default.recentFile2 = recent_filenames.ElementAt(2);
-            Properties.Settings.Default.recentFile3 = recent_filenames.ElementAt(3);
-            Properties.Settings.Default.recentFile4 = recent_filenames.ElementAt(4);
-            Properties.Settings.Default.recentFile5 = recent_filenames.ElementAt(5);
-            Properties.Settings.Default.recentFile6 = recent_filenames.ElementAt(6);
-            Properties.Settings.Default.recentFile7 = recent_filenames.ElementAt(7);
-            Properties.Settings.Default.recentFile8 = recent_filenames.ElementAt(8);
-            Properties.Settings.Default.recentFile9 = recent_filenames.ElementAt(9);
+
+            if (recent_filenames.Count > 0)
+                Properties.Settings.Default.recentFile0 = recent_filenames.ElementAt(0);
+            else
+                Properties.Settings.Default.recentFile0 = "";
+
+            if (recent_filenames.Count > 1)
+                Properties.Settings.Default.recentFile1 = recent_filenames.ElementAt(1);
+            else
+                Properties.Settings.Default.recentFile1 = "";
+
+            if (recent_filenames.Count > 2)
+                Properties.Settings.Default.recentFile2 = recent_filenames.ElementAt(2);
+            else
+                Properties.Settings.Default.recentFile2 = "";
+
+            if (recent_filenames.Count > 3)
+                Properties.Settings.Default.recentFile3 = recent_filenames.ElementAt(3);
+            else
+                Properties.Settings.Default.recentFile3 = "";
+
+            if (recent_filenames.Count > 4)
+                Properties.Settings.Default.recentFile4 = recent_filenames.ElementAt(4);
+            else
+                Properties.Settings.Default.recentFile4 = "";
+
+            if (recent_filenames.Count > 5)
+                Properties.Settings.Default.recentFile5 = recent_filenames.ElementAt(5);
+            else
+                Properties.Settings.Default.recentFile5 = "";
+
+            if (recent_filenames.Count > 6)
+                Properties.Settings.Default.recentFile6 = recent_filenames.ElementAt(6);
+            else
+                Properties.Settings.Default.recentFile6 = "";
+
+            if (recent_filenames.Count > 7)
+                Properties.Settings.Default.recentFile7 = recent_filenames.ElementAt(7);
+            else
+                Properties.Settings.Default.recentFile7 = "";
+
+            if (recent_filenames.Count > 8)
+                Properties.Settings.Default.recentFile8 = recent_filenames.ElementAt(8);
+            else
+                Properties.Settings.Default.recentFile8 = "";
+
+            if (recent_filenames.Count > 9)
+                Properties.Settings.Default.recentFile9 = recent_filenames.ElementAt(9);
+            else
+                Properties.Settings.Default.recentFile9 = "";
 
             Properties.Settings.Default.Save();
         }
@@ -177,8 +217,34 @@ namespace WavEditCs
             //update recent files
             SaveRecentFileList();
 
+        }
 
+        void RemoveFromRecentFiles(string filenameIn)
+        {
 
+            string stringTemp = filenameIn;
+            int alreadyThere = -1;
+
+            for (int i = 0; i < recent_filenames.Count; i++)
+            {
+
+                var it = recent_filenames.ElementAt(i);
+
+                if (it.Equals(stringTemp) == true)
+                {                   //match
+
+                    alreadyThere = i;       //get index
+
+                }
+            }
+
+            if (alreadyThere != -1)
+            {
+                recent_filenames.RemoveAt(alreadyThere);
+            }
+
+            //update recent files
+            SaveRecentFileList();
         }
 
 
@@ -534,11 +600,22 @@ namespace WavEditCs
         private void OpenRecentFile(Object sender, EventArgs e, string filename)
         {
 
+            if (!File.Exists(filename))
+            {
+                DialogResult result = MessageBox.Show("File does not exist. Delete from recent files?", "File Load Error", MessageBoxButtons.YesNo);
 
+                if (result == DialogResult.Yes)
+                {
+                    RemoveFromRecentFiles(filename);
+                    RebuildRecentFiles();
+                }
+
+                return;
+            }
 
             a = new AudioFile();
 
-            a.OpenWav(filename);
+            a.OpenWav(filename); 
             UpdateAudioInfo(a);
 
 

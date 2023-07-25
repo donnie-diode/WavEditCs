@@ -273,8 +273,8 @@ namespace WavEditCs
                     }
                     else                    //stereo
                     {
-                        monoAudio.audioBuffer32[i] = (short)(aIn.audioBuffer32[i * 2] * 0.5f);
-                        monoAudio.audioBuffer32[i] += (short)(aIn.audioBuffer32[i * 2 + 1] * 0.5f);
+                        monoAudio.audioBuffer32[i] = (int)(aIn.audioBuffer32[i * 2] * 0.5f);
+                        monoAudio.audioBuffer32[i] += (int)(aIn.audioBuffer32[i * 2 + 1] * 0.5f);
                     }
                 }
 
