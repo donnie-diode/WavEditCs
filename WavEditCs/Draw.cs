@@ -249,7 +249,7 @@ namespace WavEditCs
 
                                 //new for v09 - check incase we have gone past the last sample in the array
                                 int n = q + (s * numChannels) + j;
-                                if (n > length * numChannels)
+                                if (n >= length * numChannels)
                                 {
                                     average += 0;                               //gone past last sample			
                                 }
@@ -458,7 +458,7 @@ namespace WavEditCs
 
                         iI += (scrollX * numChannels);      //just added!!! may need to remove
 
-                        if ((iI / numChannels) > length) break;
+                        if ((iI / numChannels) >= length) break;
 
                         int x1 = pixelsPerSample * i;
                         int y1 = yAxis - 5 - (audioBuffer32[iI] * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer

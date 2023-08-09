@@ -400,15 +400,15 @@ namespace WavEditCs
         public void UpdateAudioInfo(AudioFile a)
         {
             this.listBox1.Items.Clear();
-            addListItem("channels:" + a.channels);
-            addListItem("sampleRate:" + a.sampleRate);
-            addListItem("size:" + a.size);
-            addListItem("length:" + a.length);
-            addListItem("bitsPerSample:" + a.bitsPerSample);
+            addListItem("Channels: " + a.channels);
+            addListItem("Sample Rate: " + a.sampleRate);
+            addListItem("File Size: " + a.size);
+            addListItem("Audio Data Size: " + a.sizeAudioOnly);
+            addListItem("Length: " + a.length);
+            addListItem("Bit Depth: " + a.bitsPerSample);
 
             string time = MyFuncs.ConvertLengthToTime(a.length, a.sampleRate);
-            addListItem("time:" + time);
-
+            addListItem("Time: " + time);
 
         }
 

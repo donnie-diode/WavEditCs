@@ -22,6 +22,7 @@ namespace WavEditCs
         public int length { get; set; }         //frames
         public int lengthTotal { get; set; }    //samples (frames * channels)
         public int size { get; set; }
+        public int sizeAudioOnly { get; set; }
 
         //
         public int byteRate { get; set; }
@@ -185,6 +186,9 @@ namespace WavEditCs
                 byteRate = reader.ReadInt32();
                 blockAlign = reader.ReadUInt16();
                 bitsPerSample = reader.ReadUInt16();
+                size = (int)sizeFile;
+                
+
 
                 //sometimes subChunkSizeBytes is 18 (or possibly something else?) - so read additional bytes; usually these can be ignored
                 if (subChunkSizeBytes > 16)
@@ -251,6 +255,7 @@ namespace WavEditCs
                 }
 
                 length = frames;
+                sizeAudioOnly = blockAlign * length;
 
 
                 int bufferSize;        //the data size we can actually load. We may not have enough memory to load it all
