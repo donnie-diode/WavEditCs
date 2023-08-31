@@ -10,6 +10,8 @@ namespace WavEditCs
     public class AudioFile
     {
 
+        public const bool HANDLE_24BITS_AS_32BITS = true;
+
         const int maxBufferSizeBytes = 512000000;		//512mb roughly
 
         //TCHAR filename[256];
@@ -370,6 +372,9 @@ namespace WavEditCs
                         c[2] = reader.ReadSByte();
                         audioBuffer32[i] = ((c[2] << 16) | ((c[1] & 0xff) << 8) | (c[0] & 0xff));
 
+                        if(HANDLE_24BITS_AS_32BITS)
+                            audioBuffer32[i] = audioBuffer32[i] << 8;           //make 24-bit audio 32-bit. Primarily for audio playback
+
 
                         //audioBuffer32[i] = reader.ReadInt16();
                     }
@@ -530,6 +535,10 @@ namespace WavEditCs
 
                         int iI = i * channels;
 
+                        if(HANDLE_24BITS_AS_32BITS)
+                            audioBuffer32[iI] = audioBuffer32[iI]>>8;
+
+
                         byte[] buffer = new byte[3];
                         buffer[0] = (byte)(audioBuffer32[iI] & 0xff);
                         buffer[1] = (byte)((audioBuffer32[iI] >> 8) & 0xff);
@@ -538,6 +547,9 @@ namespace WavEditCs
 
                         if (channels == 2)
                         {
+                            if(HANDLE_24BITS_AS_32BITS)
+                                audioBuffer32[iI+1] = audioBuffer32[iI+1]>>8;
+
                             buffer[0] = (byte)(audioBuffer32[iI + 1] & 0xff);
                             buffer[1] = (byte)((audioBuffer32[iI + 1] >> 8) & 0xff);
                             buffer[2] = (byte)((audioBuffer32[iI + 1] >> 16) & 0xff);
@@ -2135,8 +2147,8 @@ Output Freq =		(Phase Increment * Sample rate frequency) / Phase Acc Size
                 case 24:
                     {
                         if (channels == 1)
-                            return "" + audioBuffer32[sampleNo];
-                        return "" + audioBuffer32[sampleNo * 2] + "," + audioBuffer32[sampleNo * 2 + 1];
+                            return "" + (audioBuffer32[sampleNo]>>8);
+                        return "" + (audioBuffer32[sampleNo * 2]>>8) + "," + (audioBuffer32[sampleNo * 2 + 1]>>8);
                     }
                 default:
                     {

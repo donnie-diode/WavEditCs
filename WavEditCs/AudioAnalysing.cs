@@ -59,7 +59,7 @@ namespace WavEditCs
                 for (int i = 0; i < aIn.length; i += 2)
                 {
 
-                    int difference = aIn.audioBuffer32[i] - aIn.audioBuffer32[i + 1];
+                    int difference = aIn.audioBuffer32[i]>>8 - aIn.audioBuffer32[i + 1]>>8;
                     averageDifference = (averageDifference + difference) / (i / 2 + 1);
                     if (difference > maxDifference)
                     {
@@ -113,6 +113,8 @@ namespace WavEditCs
                 int db = (int)Math.Round(20.0 * Math.Log10(32767.0 / maxDifference));
                 //Voltage ratio : Level L(dB) = 20 × log(value 2 / value 1)   That are field quantities
 
+                double percentage = maxDifference / 32767.0;
+
                 string output = "Pos: ";
                 output += maxPosition;
 
@@ -121,6 +123,10 @@ namespace WavEditCs
 
                 output += ", dB: ";
                 output += db;
+
+                output += ", ";
+                output += (Math.Round(percentage, 2) * 100.0);
+                output += "%";
 
                 MessageBox.Show(output, "Peak Level");
             }
@@ -137,9 +143,9 @@ namespace WavEditCs
                 for (int i = 0; i < (aIn.length * aIn.channels); i += 1)
                 {
 
-                    if (Math.Abs(aIn.audioBuffer32[i]) > maxDifference)
+                    if (Math.Abs(aIn.audioBuffer32[i]>>8) > maxDifference)
                     {
-                        maxDifference = Math.Abs(aIn.audioBuffer32[i]);
+                        maxDifference = Math.Abs(aIn.audioBuffer32[i]>>8);
                         maxPosition = i;
                     }
 
@@ -151,6 +157,8 @@ namespace WavEditCs
                 int db = (int)Math.Round(20.0 * Math.Log10(8388607.0 / maxDifference));
                 //Voltage ratio : Level L(dB) = 20 × log(value 2 / value 1)   That are field quantities
 
+                double percentage = maxDifference / 8388607.0;
+
                 string output = "Pos: ";
                 output += maxPosition;
 
@@ -159,6 +167,10 @@ namespace WavEditCs
 
                 output += ", dB: ";
                 output += db;
+
+                output += ", ";
+                output += (Math.Round(percentage,2)*100.0);
+                output += "%";
 
                 MessageBox.Show(output, "Peak Level");
             }

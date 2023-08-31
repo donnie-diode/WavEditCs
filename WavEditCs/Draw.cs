@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -255,7 +256,7 @@ namespace WavEditCs
                                 }
                                 else
                                 {
-                                    average += audioBuffer32[n];
+                                    average += (audioBuffer32[n] >> 8);
                                 }
                                 //////////////////////////////////////////////
 
@@ -461,10 +462,10 @@ namespace WavEditCs
                         if ((iI / numChannels) >= length) break;
 
                         int x1 = pixelsPerSample * i;
-                        int y1 = yAxis - 5 - (audioBuffer32[iI] * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
+                        int y1 = yAxis - 5 - ((audioBuffer32[iI]>>8) * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
 
                         int x2 = pixelsPerSample * i;
-                        int y2 = yAxis + 5 - (audioBuffer32[iI] * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
+                        int y2 = yAxis + 5 - ((audioBuffer32[iI] >> 8) * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
 
                         gr.DrawLine(redPen, MAP_OFFS_X + x1, MAP_OFFS_Y + 0 + y1, MAP_OFFS_X + x2, MAP_OFFS_Y + 0 + y2);
 
@@ -474,7 +475,7 @@ namespace WavEditCs
                         }
 
                         prevX = pixelsPerSample * i;
-                        prevY = yAxis + 0 - (audioBuffer32[iI] * (waveformAreaHeight / 2)) / 8388608;       //changed from 32768 and different buffer
+                        prevY = yAxis + 0 - ((audioBuffer32[iI] >> 8) * (waveformAreaHeight / 2)) / 8388608;       //changed from 32768 and different buffer
 
                         if (numChannels == 2)
                         {
@@ -484,10 +485,10 @@ namespace WavEditCs
                             iI += (scrollX * numChannels);      //just added!!! may need to remove
 
                             x1 = pixelsPerSample * i;
-                            y1 = yAxis - 5 - (audioBuffer32[iI] * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
+                            y1 = yAxis - 5 - ((audioBuffer32[iI] >> 8) * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
 
                             x2 = pixelsPerSample * i;
-                            y2 = yAxis + 5 - (audioBuffer32[iI] * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
+                            y2 = yAxis + 5 - ((audioBuffer32[iI] >> 8) * (waveformAreaHeight / 2)) / 8388608;      //changed from 32768 and different buffer
 
                             gr.DrawLine(redPen, MAP_OFFS_X + x1, MAP_OFFS_Y + waveformAreaHeight + y1, MAP_OFFS_X + x2, MAP_OFFS_Y + waveformAreaHeight + y2);
 
@@ -497,7 +498,7 @@ namespace WavEditCs
                             }
 
                             prevX_2 = pixelsPerSample * i;
-                            prevY_2 = yAxis + 0 - (audioBuffer32[iI] * (waveformAreaHeight / 2)) / 8388608;     //changed from 32768 and different buffer
+                            prevY_2 = yAxis + 0 - ((audioBuffer32[iI] >> 8) * (waveformAreaHeight / 2)) / 8388608;     //changed from 32768 and different buffer
 
 
                         }

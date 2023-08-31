@@ -1,11 +1,14 @@
-﻿
+﻿New To Do
+Add vertical zoom?
+
+
 Start of v02
 
 										| 8		| 16	| 24	| 32	|
 Open Wav, Save Under Different name		| Y		| Y		| Y		|		|
 Open Mono wav, conv to stereo, save		| Y		| Y		| Y	 	|		|
 
-Play wav								| Y*	| Y		| N*	|		|
+Play wav								| Y*	| Y		| Y		|		|
 Y* - clipping distortion at end
 N* - silence
 
